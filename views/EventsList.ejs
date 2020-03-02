@@ -1,0 +1,97 @@
+<html>
+
+    <head>
+       
+       <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.css">
+       <script src="/jquery/dist/jquery.min.js"></script>
+       <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
+       <style>
+       body{
+            background: -webkit-gradient(linear, left bottom, right top, from(#fc2c77), to(#6c4079));
+            background: -webkit-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
+            background: -moz-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
+            background: -o-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
+            background: linear-gradient(to top right, #fc2c77 0%, #6c4079 100%);
+       }
+   </style>
+      
+       
+       <script>
+
+        function deleteRow(ID,Obj)
+        {
+        $.ajax({
+    
+            url:"http://localhost:8080/events/delete/"+ID,
+            dataType:"text",
+            method:"get",
+           success:function(result){
+                $(Obj).parents("tr").remove();
+            
+           },
+    
+           error:function(error){
+    
+                console.log(error);
+           }
+           
+    
+        });
+    }
+    
+    </script>
+
+    </head>
+    <body>
+        <div> <%- include('header') %></div> 
+        <table class="table">
+            <thead class="thead-dark">
+           <tr>
+                <td>id</td>
+                <td colspan="3">Title</td>
+               
+                <td>Picture</td>
+                <td>mainSpeaker</td>
+                <td>otherSpeakers</td>
+                
+              
+            </tr>
+        </thead>
+        <tbody>
+           
+                <% data.forEach((item)=>{%>
+                    <tr>
+                    <td><%= item._id%></td>
+                    <td><%= item.title%></td>
+                    <td><a href="/events/update/<%= item._id%>" class="btn btn-primary">Edit</a></td>
+                    <td><a href="#" class="btn btn-danger" onclick="deleteRow(<%= item._id%>,this)">Delete</a></td>
+                    <td>Picture</td>
+                    
+                    <%if(item.mainSpeaker){%>
+                        <td>
+                            <%=item.mainSpeaker.name%>
+                            <%;}%>
+                        </td>
+                        <%if(item.otherSpeakers[0]){%>
+                        <td>
+                        <ul>
+                        <%item.otherSpeakers.forEach((element)=>{%>
+                            <li>
+                                <%=element.name%>
+                            </li>
+                            <%});%>
+                        </ul>
+                    </td>
+                    </tr>
+                <%}%>
+                <%})%>
+            </tbody>
+        </table>
+
+
+
+
+    </body>
+
+
+</html>

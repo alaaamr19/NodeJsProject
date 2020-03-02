@@ -1,0 +1,62 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="/bootstrap/dist/css/bootstrap.min.css">
+        <script src="/jquery/dist/jquery.min.js"></script>
+        <script>
+                function deleterow(id,obj){ $.ajax({
+                url:"http://localhost:8080/speakers/delete/"+id,
+                method:"get",
+                dataType:"Text",
+                success:function(result){ 
+                
+                    $(obj).parents("tr").remove();
+                    
+                
+                 }, error:function(error){console.log(error+"");}
+});}
+            
+        </script>
+        <style>
+            body{
+                background: -webkit-gradient(linear, left bottom, right top, from(#fc2c77), to(#6c4079));
+                background: -webkit-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
+                background: -moz-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
+                background: -o-linear-gradient(bottom left, #fc2c77 0%, #6c4079 100%);
+                background: linear-gradient(to top right, #fc2c77 0%, #6c4079 100%);
+
+            }
+        </style>
+    </head>
+    <body>
+        <div> <%- include('header') %></div> 
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <td>id</td>
+               <td>name</td>
+               <td>age</td> 
+            </tr>
+        </thead>
+        <tbody>
+            <%SpeakersData.forEach(function(speaker){%>
+                <tr>
+                    <%if(speaker){%>
+                    <td><%=speaker._id;%></td>
+                    <td><%=speaker.name;%></td>
+                    <td><%=speaker.age;%></td>
+                    <td><a href="#" class=" btn btn-danger" onclick="deleterow( '<%=speaker._id%>',this)"> delete</a></td>        
+                    <td><a href="/speakers/update/<%=speaker._id%>" class ="btn btn-primary"> Edit</a></td>
+                </tr>
+                <%}%>
+            <%})%>
+                
+        </tbody>
+        </table>
+           
+
+        
+        <script src="/bootstrap/dist/js/bootstrap.bundle.js">
+
+        </script>
+    </body>
+</html>
